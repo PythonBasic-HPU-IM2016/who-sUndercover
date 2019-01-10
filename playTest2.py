@@ -1,4 +1,4 @@
-from tkinter import*
+from tkinter import *
 from tkinter import scrolledtext
 import tkinter as tk
 from tkinter import ttk
@@ -7,10 +7,21 @@ import random, sys
 from tkinter.simpledialog import askinteger
 
 
+def randomWord():
+    fo=open("wd.txt","r")
+    for line  in  fo:
+        a=line.replace(';',' ')
+        a=a.split( )
+        num=len(a)
+    spy=random.randint(0,num-1)
+
+    b=a[spy].replace('-',' ')
+    b=b.split( )
+    return b
 
 def checkPlayerNum(t):
-    if t<4:
-        tk.messagebox.showerror('错误','输入人数限制在4人及以上\n请您输入正确人数,重开游戏!')
+    if t<4 or t>8:
+        tk.messagebox.showerror('错误','输入人数限制在4~8人\n请您输入正确人数,重开游戏!')
         return 0
     else:
         return 1
@@ -22,7 +33,7 @@ def roleChoose(num):
         spy=random.randint(0,num-1)
  
     #随机产生词语 定义词语列表 计算玩家票数的列表 统计死亡玩家的列表
-        list_rand=['玻璃','眼镜']
+        list_rand=randomWord()
         word=[]
         cnt=[]
         dead=[]
@@ -39,16 +50,16 @@ def roleChoose(num):
             else:
                 word[i]=str(list_rand[0])
             print (word[i])
-   
+        tk.messagebox.showinfo('提示信息','身份已经分配完毕，游戏正式开始！')
         gameBegin(num,word,cnt,dead,spy)
 
 def gameBegin(num,word,cnt,dead,spy):
     
     sameVote=0
     spyWin=0
-    tk.messagebox.showinfo('提示信息','身份已经分配完毕，游戏正式开始！')
+   
 
-    for x in range(0,num-1):
+    for x in range(0,num-2):
         for k in range(0,num):
             if ((k not in dead) & (sameVote==0)):
                 output.insert(tk.INSERT, '请%d号玩家发言！\n' %(k+1))
@@ -78,12 +89,17 @@ def gameBegin(num,word,cnt,dead,spy):
             tk.messagebox.showinfo('投错人咯！！！','%d号玩家被冤死!\n'%(dead[x]+1))
             output.insert(tk.INSERT, '%d号玩家被冤死!\n'%(dead[x]+1))
     GameOver(spyWin)
+    
 
 
 
 def GameOver(spyWin):
     if(spyWin==0):
         tk.messagebox.showinfo('游戏结束','卧底胜利！\n平民继续加油哦！')
+
+    again = askinteger("还想再来吗？", "再来一局请输0\n退出请输入1", initialvalue=0)
+    if again == 1:
+        sys.exit()
 
 
 def createBg(): 
@@ -104,7 +120,6 @@ def createBg():
     play7.place(x=850,y=653,anchor='nw')
     play8 = tk.Button(text='8号玩家',bg='white', width=20, height=2)
     play8.place(x=0,y=653,anchor='nw')
-    
 
     
 
@@ -113,6 +128,10 @@ def createBg():
     l.place(x=320,y=440,anchor='nw')'''
 
 def playsNum():
+    '''if b['text'] == '开始游戏':
+        v.set('重开游戏')
+    else:
+        v.set('开始游戏')'''
     res = askinteger("请输入游戏人数", "人数限制4—8人", initialvalue=8)
     roleChoose(res)
 
@@ -126,14 +145,15 @@ if __name__=='__main__':
     photo = ImageTk.PhotoImage(img)
     canvas.create_image(500, 350, image=photo)
     canvas.pack()
-    var = tk.StringVar()
     createBg()
   
     window_deplay = ttk.Frame(window)
     window_deplay.place(x=400,y=480,anchor='nw')
     output = scrolledtext.ScrolledText(window, height=9, width=30, highlightbackground='black', highlightthickness=1)
     output.place(x=400,y=480,anchor='nw')
-    testNum = tk.Button(text='游戏开始', bg='red',width=10, height=3,command=playsNum).place(x=460,y=380,anchor='nw')
+    v = StringVar()
+    v.set('开始游戏')
+    b = Button(window,textvariable=v, bg='red',width=10, height=3,command=playsNum).place(x=460,y=380,anchor='nw')
      
     window.mainloop()
  
