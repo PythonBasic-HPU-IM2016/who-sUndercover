@@ -36,8 +36,7 @@ for x in range(0,num-1):
 		
 	#将各位玩家的票数置0
 	for j in range(0,num):
-		if (j not in dead):
-			cnt[j]=0
+		cnt[j]=0
 	
 	for j in range(0,num):
 		if (j not in dead):
