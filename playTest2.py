@@ -5,6 +5,7 @@ from tkinter import ttk
 from PIL import ImageTk, Image
 import random, sys
 from tkinter.simpledialog import askinteger
+import pygame
 
 
 def randomWord():
@@ -145,6 +146,12 @@ if __name__=='__main__':
     photo = ImageTk.PhotoImage(img)
     canvas.create_image(500, 350, image=photo)
     canvas.pack()
+    pygame.init()   
+    pygame.mixer.init()   
+    pygame.time.delay(500)#等待让mixer完成初始化   
+    pygame.mixer.music.load("bg.mp3")   
+    pygame.mixer.music.set_volume(0.2)   
+    pygame.mixer.music.play(-1) 
     createBg()
   
     window_deplay = ttk.Frame(window)
