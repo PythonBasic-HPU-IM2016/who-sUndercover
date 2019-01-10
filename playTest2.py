@@ -64,9 +64,15 @@ def gameBegin(num,word,cnt,dead,spy):
         for k in range(0,num):
             if ((k not in dead) & (sameVote==0)):
                 output.insert(tk.INSERT, '请%d号玩家发言！\n' %(k+1))
-                tk.messagebox.askyesno(title='发言阶段',message='%d号玩家发言是否结束'%(k+1))
-        tk.messagebox.showinfo('提示信息','所有玩家发言完毕，请依次点击投票按钮！')
-		
+                pygame.mixer.music.load("%d.mp3"%(k+1))
+                pygame.mixer.music.play(1)
+                tk.messagebox.showinfo('发言阶段','%d号玩家发言是否结束'%(k+1))
+                #tk.messagebox.askyesno(title='发言阶段',message='%d号玩家发言是否结束'%(k+1))
+
+        tk.messagebox.showinfo('提示信息','所有玩家发言完毕，请依次开始投票！')
+        pygame.mixer.music.load("toupiao.mp3")
+        pygame.mixer.music.play(1)
+        
 	#将各位玩家的票数置0
         
         for j in range(0,num):
@@ -98,8 +104,9 @@ def GameOver(spyWin):
     if(spyWin==0):
         tk.messagebox.showinfo('游戏结束','卧底胜利！\n平民继续加油哦！')
 
-    again = askinteger("还想再来吗？", "再来一局请输0\n退出请输入1", initialvalue=0)
-    if again == 1:
+    answer = tkinter.messagebox.askquestion("Game","再来一局吗?")
+    if answer == "no":
+        pygame.mixer.music.stop()
         sys.exit()
 
 
@@ -149,8 +156,7 @@ if __name__=='__main__':
     pygame.init()   
     pygame.mixer.init()   
     pygame.time.delay(500)#等待让mixer完成初始化   
-    pygame.mixer.music.load("bg.mp3")   
-    pygame.mixer.music.set_volume(0.2)   
+    pygame.mixer.music.load("bg.mp3")      
     pygame.mixer.music.play(-1) 
     createBg()
   
