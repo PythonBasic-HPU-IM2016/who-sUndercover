@@ -1,5 +1,5 @@
 def aaa():
-    fo=open("C:\\Users\\deng\\AppData\\Local\\Programs\\Python\\Python37\\python12\\111.txt","r")
+    fo=open("wd.txt","r")
     for line  in  fo:
         a=line.replace(';',' ')
         a=a.split( )
