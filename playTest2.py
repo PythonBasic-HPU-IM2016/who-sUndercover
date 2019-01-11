@@ -6,25 +6,113 @@ from PIL import ImageTk, Image
 import random, sys
 from tkinter.simpledialog import askinteger
 import pygame
+import time
 
-
-def colorTurn(m):
+def colorTurn3(m):
     if m == 1:
+        play1['text']='1号选手死亡'
+        play1['bg']='green'
+    elif m == 2:
+        play2['text']='2号选手死亡'
+        play2['bg']='green'
+    elif m == 3:
+        play3['text']='3号选手死亡'
+        play3['bg']='green'
+    elif m == 4:
+        play4['text']='4号选手死亡'
+        play4['bg']='green'
+    elif m == 5:
+        play5['text']='5号选手死亡'
+        play5['bg']='green'
+    elif m == 6:
+        play6['text']='6号选手死亡'
+        play6['bg']='green'
+    elif m == 7:
+        play7['text']='7号选手死亡'
+        play7['bg']='green'
+    elif m == 8:
+        play8['text']='8号选手死亡'
+        play8['bg']='green'
+
+def colorTurn2(m):
+    if m == 1:
+        play1['text']='1号选手发言完毕'
+        play1['bg']='yellow'
+    elif m == 2:
+        play2['text']='2号选手发言完毕'
+        play2['bg']='yellow'
+    elif m == 3:
+        play3['text']='3号选手发言完毕'
+        play3['bg']='yellow'
+    elif m == 4:
+        play4['text']='4号选手发言完毕'
+        play4['bg']='yellow'
+    elif m == 5:
+        play5['text']='5号选手发言完毕'
+        play5['bg']='yellow'
+    elif m == 6:
+        play6['text']='6号选手发言完毕'
+        play6['bg']='yellow'
+    elif m == 7:
+        play7['text']='7号选手发言完毕'
+        play7['bg']='yellow'
+    elif m == 8:
+        play8['text']='8号选手发言完毕'
+        play8['bg']='yellow'
+
+
+def colorTurn1(m):
+    if m == 1:
+        play1['text']='1号选手发言中'
         play1['bg']='red'
     elif m == 2:
+        play2['text']='2号选手发言中'
         play2['bg']='red'
     elif m == 3:
+        play3['text']='3号选手发言中'
         play3['bg']='red'
     elif m == 4:
+        play4['text']='4号选手发言中'
         play4['bg']='red'
     elif m == 5:
+        play5['text']='5号选手发言中'
         play5['bg']='red'
     elif m == 6:
+        play6['text']='6号选手发言中'
         play6['bg']='red'
     elif m == 7:
+        play7['text']='7号选手发言中'
         play7['bg']='red'
     elif m == 8:
+        play8['text']='8号选手发言中'
         play8['bg']='red'
+
+def roleCheck(m):
+    if m == 1:
+        play1['text']='1号选手身份确认完毕'
+        play1['bg']='blue'
+    elif m == 2:
+        play2['text']='2号选手身份确认完毕'
+        play2['bg']='blue'
+    elif m == 3:
+        play3['text']='3号选手身份确认完毕'
+        play3['bg']='blue'
+    elif m == 4:
+        play4['text']='4号选手身份确认完毕'
+        play4['bg']='blue'
+    elif m == 5:
+        play5['text']='5号选手身份确认完毕'
+        play5['bg']='blue'
+    elif m == 6:
+        play6['text']='6号选手身份确认完毕'
+        play6['bg']='blue'
+    elif m == 7:
+        play7['text']='7号选手身份确认完毕'
+        play7['bg']='blue'
+    elif m == 8:
+        play8['text']='8号选手身份确认完毕'
+        play8['bg']='blue'
+
 
 def randomWord():
     fo=open("wd.txt","r")
@@ -53,12 +141,13 @@ def roleChoose(num):
  
     #随机产生词语 定义词语列表 计算玩家票数的列表 统计死亡玩家的列表
         list_rand=randomWord()
-        word=[]
+        global word
+        word =[0,0,0,0,0,0,0,0]
         cnt=[]
         dead=[]
     #给三个列表赋值
         for i in range(0,num):
-            word.append('a')
+            
             cnt.append(0)
             dead.append(num+2)
  
@@ -68,7 +157,10 @@ def roleChoose(num):
                 word[i]=str(list_rand[1])
             else:
                 word[i]=str(list_rand[0])
-            print (word[i])
+            tk.messagebox.showwarning('提示信息','请%d号玩家检验身份！'%(i+1))
+            change(i+1)
+            tk.messagebox.showwarning('提示信息','%d号玩家检验身份是否结束！'%(i+1))
+            roleCheck(i+1)
         tk.messagebox.showinfo('提示信息','身份已经分配完毕，游戏正式开始！')
         gameBegin(num,word,cnt,dead,spy)
 
@@ -81,12 +173,13 @@ def gameBegin(num,word,cnt,dead,spy):
     for x in range(0,num-2):
         for k in range(0,num):
             if ((k not in dead) & (sameVote==0)):
-                colorTurn(k+1)
-                
+                colorTurn1(k+1)
                 output.insert(tk.INSERT, '请%d号玩家发言！\n' %(k+1))
                 pygame.mixer.music.load("%d.mp3"%(k+1))
                 pygame.mixer.music.play(1)
+                #time.sleep(10)
                 tk.messagebox.showinfo('发言阶段','%d号玩家发言是否结束'%(k+1))
+                colorTurn2(k+1)
                 #tk.messagebox.askyesno(title='发言阶段',message='%d号玩家发言是否结束'%(k+1))
 
         pygame.mixer.music.load("toupiao.mp3")
@@ -115,6 +208,7 @@ def gameBegin(num,word,cnt,dead,spy):
                 spyWin=1
                 break
             tk.messagebox.showinfo('投错人咯！！！','%d号玩家被冤死!\n'%(dead[x]+1))
+            colorTurn3(dead[x]+1)
             output.insert(tk.INSERT, '%d号玩家被冤死!\n'%(dead[x]+1))
     GameOver(spyWin)
     
@@ -130,26 +224,46 @@ def GameOver(spyWin):
         pygame.mixer.music.stop()
         window.destroy()
         sys.exit()
+    else:
+        createBg()
         
+def change(i):
+    if i==1:
+        play1['text']=word[i-1]
+    elif i==2:
+        play2['text']=word[i-1]
+    elif i==3:
+        play3['text']=word[i-1]
+    elif i==4:
+        play4['text']=word[i-1]
+    elif i==5:
+        play5['text']=word[i-1]
+    elif i==6:
+        play6['text']=word[i-1]
+    elif i==7:
+        play7['text']=word[i-1]
+    else:
+        play8['text']=word[i-1]                     
+    
 
-
-def createBg(): 
+def createBg():
+    
     global play1,play2,play3,play4,play5,play6,play7,play8 
-    play1 = tk.Button(text='1号玩家', bg='white',width=20, height=2)
+    play1 = tk.Button(text='1号玩家', bg='white',width=20, height=2,command=lambda:change(1))
     play1.place(x=0,y=326.5,anchor='nw')
-    play2 = tk.Button(text='2号玩家',bg='white',width=20, height=2)
+    play2 = tk.Button(text='2号玩家',bg='white',width=20, height=2,command=lambda:change(2))
     play2.place(x=425,y=0,anchor='nw')
-    play3 = tk.Button(text='3号玩家',bg='white',width=20, height=2)
+    play3 = tk.Button(text='3号玩家',bg='white',width=20, height=2,command=lambda:change(3))
     play3.place(x=850,y=326.5,anchor='nw')
-    play4 = tk.Button(text='4号玩家',bg='white', width=20, height=2)
+    play4 = tk.Button(text='4号玩家',bg='white', width=20, height=2,command=lambda:change(4))
     play4.place(x=425,y=653,anchor='nw')
-    play5 = tk.Button(text='5号玩家',bg='white',width=20, height=2)
+    play5 = tk.Button(text='5号玩家',bg='white',width=20, height=2,command=lambda:change(5))
     play5.place(x=0,y=0,anchor='nw')
-    play6 = tk.Button(text='6号玩家',bg='white', width=20, height=2)
+    play6 = tk.Button(text='6号玩家',bg='white', width=20, height=2,command=lambda:change(6))
     play6.place(x=850,y=0,anchor='nw')
-    play7 = tk.Button(text='7号玩家',bg='white', width=20, height=2)
+    play7 = tk.Button(text='7号玩家',bg='white', width=20, height=2,command=lambda:change(7))
     play7.place(x=850,y=653,anchor='nw')
-    play8 = tk.Button(text='8号玩家',bg='white', width=20, height=2)
+    play8 = tk.Button(text='8号玩家',bg='white', width=20, height=2,command=lambda:change(8))
     play8.place(x=0,y=653,anchor='nw')
 
     
@@ -182,7 +296,7 @@ if __name__=='__main__':
     bgSound = pygame.mixer.music
     bgSound.load("bg.mp3")      
     bgSound.play(-1) 
-
+    
     a=0
     colors=['red','yellow']
     texts=['发言中','发言完毕']
