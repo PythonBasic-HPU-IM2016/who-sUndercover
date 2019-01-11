@@ -117,7 +117,7 @@ def roleCheck(m):
 def randomWord():
     fo=open("wd.txt","r",encoding='utf-8-sig')
     while True:
-        line=fo.readline()
+        line=fo.read()
         if not line:break
         a=line.replace('；',' ')
         a=a.strip().split( )
