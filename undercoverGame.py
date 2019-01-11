@@ -285,27 +285,31 @@ def playsNum():
     roleChoose(res)
 
 if __name__=='__main__':
+    #新建窗口
     window = Tk()
     window.title("Who's Undercover ?")
+    #设置窗口大小
     window.geometry('1000x700')
+    '''
+    定义一个画布背景
+    在背景内插入image
+    '''
     canvas = tk.Canvas(window, width=1000,height=699,bd=0, highlightthickness=0)
     imgpath = 'background.gif'
+    #打开照片的相关操作
     img = Image.open(imgpath)
     photo = ImageTk.PhotoImage(img)
     canvas.create_image(500, 350, image=photo)
     canvas.pack()
+
+    #利用pygame库，作为背景音的载体
     pygame.init()   
     pygame.mixer.init()   
     pygame.time.delay(500)#等待让mixer完成初始化   
-    bgSound = pygame.mixer.music
+    bgSound = pygame.mixer.music#载入音乐的引入方法
     bgSound.load("bg.mp3")      
-    bgSound.play(-1) 
-    
-    a=0
-    colors=['red','yellow']
-    texts=['发言中','发言完毕']
+    bgSound.play(-1)#播放次数，正n为n次，-1无限循环
     createBg()
-  
     window_deplay = ttk.Frame(window)
     window_deplay.place(x=400,y=480,anchor='nw')
     output = scrolledtext.ScrolledText(window, height=9, width=30, highlightbackground='black', highlightthickness=1)
