@@ -8,6 +8,24 @@ from tkinter.simpledialog import askinteger
 import pygame
 
 
+def colorTurn(m):
+    if m == 1:
+        play1['bg']='red'
+    elif m == 2:
+        play2['bg']='red'
+    elif m == 3:
+        play3['bg']='red'
+    elif m == 4:
+        play4['bg']='red'
+    elif m == 5:
+        play5['bg']='red'
+    elif m == 6:
+        play6['bg']='red'
+    elif m == 7:
+        play7['bg']='red'
+    elif m == 8:
+        play8['bg']='red'
+
 def randomWord():
     fo=open("wd.txt","r")
     for line  in  fo:
@@ -63,16 +81,19 @@ def gameBegin(num,word,cnt,dead,spy):
     for x in range(0,num-2):
         for k in range(0,num):
             if ((k not in dead) & (sameVote==0)):
+                colorTurn(k+1)
+                
                 output.insert(tk.INSERT, '请%d号玩家发言！\n' %(k+1))
                 pygame.mixer.music.load("%d.mp3"%(k+1))
                 pygame.mixer.music.play(1)
                 tk.messagebox.showinfo('发言阶段','%d号玩家发言是否结束'%(k+1))
                 #tk.messagebox.askyesno(title='发言阶段',message='%d号玩家发言是否结束'%(k+1))
 
-        tk.messagebox.showinfo('提示信息','所有玩家发言完毕，请依次开始投票！')
         pygame.mixer.music.load("toupiao.mp3")
         pygame.mixer.music.play(1)
-        
+        tk.messagebox.showinfo('提示信息','所有玩家发言完毕，请依次开始投票！')
+        bgSound.load("bg.mp3")      
+        bgSound.play(-1) 
 	#将各位玩家的票数置0
         
         for j in range(0,num):
@@ -104,14 +125,16 @@ def GameOver(spyWin):
     if(spyWin==0):
         tk.messagebox.showinfo('游戏结束','卧底胜利！\n平民继续加油哦！')
 
-    answer = tkinter.messagebox.askquestion("Game","再来一局吗?")
+    answer = tk.messagebox.askquestion("Game","再来一局吗?")
     if answer == "no":
         pygame.mixer.music.stop()
+        window.destroy()
         sys.exit()
+        
 
 
 def createBg(): 
-     
+    global play1,play2,play3,play4,play5,play6,play7,play8 
     play1 = tk.Button(text='1号玩家', bg='white',width=20, height=2)
     play1.place(x=0,y=326.5,anchor='nw')
     play2 = tk.Button(text='2号玩家',bg='white',width=20, height=2)
@@ -156,8 +179,13 @@ if __name__=='__main__':
     pygame.init()   
     pygame.mixer.init()   
     pygame.time.delay(500)#等待让mixer完成初始化   
-    pygame.mixer.music.load("bg.mp3")      
-    pygame.mixer.music.play(-1) 
+    bgSound = pygame.mixer.music
+    bgSound.load("bg.mp3")      
+    bgSound.play(-1) 
+
+    a=0
+    colors=['red','yellow']
+    texts=['发言中','发言完毕']
     createBg()
   
     window_deplay = ttk.Frame(window)
