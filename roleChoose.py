@@ -10,7 +10,7 @@ from tkinter.simpledialog import askinteger
 def randomWord():
     fo=open("wd.txt","r",encoding='utf-8-sig')
     while True:
-        line=fo.readline()
+        line=fo.read()
         if not line:break
         a=line.replace('；',' ')
         a=a.strip().split( )
@@ -19,6 +19,7 @@ def randomWord():
     b=a[spy].replace('-',' ')
     b=b.split( )
     return b
+    fo.close()
 
 def checkPlayerNum(t):
     if t<4 or t>8:
